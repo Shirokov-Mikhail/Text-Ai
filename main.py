@@ -1,16 +1,26 @@
-# This is a sample Python script.
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from pprint import pprint
+import random
+from flask import Flask, render_template, url_for, request, jsonify, redirect
+
+import json
+
+app = Flask(__name__)
+
+# Required configuratio
+auth = False
+email = '0'
+permissions = 0
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@app.route('/')
+def index():
+    fone = [url_for('static', filename='uploads/posters/poster.jpg') for i in range(3)]
+    if auth:
+        return render_template('index.html', display="inline", user="none", fone=fone)
+    return render_template('index.html', display="none", user="inline", fone=fone)
 
 
-# Press the green button in the gutter to run the script.
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app.run(port=8080, host='127.0.0.1')
