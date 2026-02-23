@@ -2,6 +2,7 @@ from pprint import pprint
 
 import numpy as np
 import tensorflow as tf
+from flask import url_for
 from keras.utils import to_categorical
 from tensorflow.keras.datasets import mnist
 from keras.datasets import mnist
@@ -15,9 +16,6 @@ from PIL import Image
 import numpy as np
 # загружаем данные
 class Ocr():#по факту это калл с нейронки но что поделавть я бек только делаю
-    def __init__(self):
-        pass
-
     def create_model(self):
         try:
             (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
@@ -50,9 +48,9 @@ class Ocr():#по факту это калл с нейронки но что п�
 
             # полносвязные слои
 
-            model.add(layers.Dense(units=120, activation='relu'))
+            model.add(layers.Dense(units=240, activation='relu'))
 
-            model.add(layers.Dense(units=10, activation='relu'))
+            model.add(layers.Dense(units=20, activation='relu'))
 
             # выходной слой (активация — SoftMax, для классификации)
             model.add(layers.Dense(units=10, activation='softmax'))
@@ -60,14 +58,14 @@ class Ocr():#по факту это калл с нейронки но что п�
             model.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(),
                           metrics=['accuracy'])
 
-            EPOCHS = 4  # количество эпох
-            BATCH_SIZE = 32  # размер одного куска данных
+            EPOCHS = 16  # количество эпох
+            BATCH_SIZE = 16  # размер одного куска данных
 
             # форматируем входные данные
             train = tf.data.Dataset.from_tensor_slices((train_images, train_labels))
-            train = train.batch(32)
+            train = train.batch(16)
             test = tf.data.Dataset.from_tensor_slices((test_images, test_labels))
-            test = test.batch(32)
+            test = test.batch(16)
 
             # считаем количество кусков, которые обработаем за одну эпоху (все)
             steps_per_epoch = train_images.shape[0] // BATCH_SIZE
@@ -84,7 +82,8 @@ class Ocr():#по факту это калл с нейронки но что п�
             return False
 
     def getImgMatricks(self, srs):
-        img = Image.open(f"../base/{srs}")
+        print(srs)
+        img = Image.open('../base/file4.png')
         # 2. Меняем размер на 128x128 и переводим в ЧБ (режим 'L' - градации серого)
         img = img.resize((28, 28)).convert('L')
 
@@ -93,8 +92,11 @@ class Ocr():#по факту это калл с нейронки но что п�
         return matrix // 255
 
     def pred(self, img):
+
         img_matrix = np.expand_dims(self.getImgMatricks(img), axis=(0, -1))
-        model = load_model("my_cnn_model.keras")
+        model = load_model('../static/my_cnn_model.keras')
         return np.argmax(model.predict(img_matrix), axis=1)
 
 
+if __name__ == '__main__':
+    print(Ocr().create_model())
