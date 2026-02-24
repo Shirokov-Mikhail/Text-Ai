@@ -57,9 +57,18 @@ body{
     background-color: gray;
 }
 main{
+    display: flex;
+    justify-content: center;
     margin-top: 5%;
+    text-align: center;
+
 }
 .result-img{
     width: 50%;
     height: auto;
+}
+.wrapper{
+    width: 25%;
+    padding: 20px;
+    border: 1px solid white;
 }

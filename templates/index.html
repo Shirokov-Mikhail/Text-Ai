@@ -8,16 +8,19 @@
 </head>
 <body>
 <main>
-    <div class="result" style="display: {{ result }}">
-<!--        <img src="{{ input_img }}" class="result-img">-->
-        <h3>{{ result_text }}</h3>
-    </div>
-    <div class="inputs">
-        <form method="POST" action="/action">
-            <label for="filename" class="label">Веберите файл</label><br>
-            <input type="file" name="file" id="filename" accept="image/png" class="input"><br>
-            <button type="submit" class="button">Найти текст</button>
-        </form>
+    <div class="wrapper">
+        <h2>{{ text }}</h2>
+        <div class="result" style="display: {{ result }}">
+            <!--        <img src="{{ input_img }}" class="result-img">-->
+            <h3>{{ result_text }}</h3>
+        </div>
+        <div class="inputs">
+            <form method="POST" action="/action">
+                <label for="filename" class="label">Веберите файл</label><br>
+                <input type="file" name="file" id="filename" accept="image/png" class="input"><br>
+                <button type="submit" class="button">Найти текст</button>
+            </form>
+        </div>
     </div>
 </main>
 </body>
