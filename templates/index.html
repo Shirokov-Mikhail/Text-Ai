@@ -1,27 +1,38 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Определитель рукописного текста</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-<!--    <link rel="stylesheet" href="../static/css/style.css">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-<main>
-    <div class="wrapper">
-        <h2>{{ text }}</h2>
-        <div class="result" style="display: {{ result }}">
-            <!--        <img src="{{ input_img }}" class="result-img">-->
-            <h3>{{ result_text }}</h3>
-        </div>
-        <div class="inputs">
-            <form method="POST" action="/action">
-                <label for="filename" class="label">Веберите файл</label><br>
-                <input type="file" name="file" id="filename" accept="image/png" class="input"><br>
-                <button type="submit" class="button">Найти текст</button>
-            </form>
-        </div>
-    </div>
+<main class="page">
+    <section class="card">
+        <header class="hero">
+            <p class="eyebrow">TensorFlow + Keras OCR</p>
+            <h1>Распознаватель текста </h1>
+            <p class="subtitle">
+               Буквы и цифры
+            </p>
+        </header>
+
+        <form class="upload-form" method="POST" action="{{ url_for('action') }}" enctype="multipart/form-data">
+            <label for="file" class="file-label">Добавить картинку </label>
+            <input class="file-input" type="file" name="file" id="file" accept=".png,.jpg,.jpeg,.bmp,.webp" required>
+            <button class="button" type="submit">Распознать текст</button>
+        </form>
+
+        {% if show_result %}
+            <section class="result-panel" aria-live="polite">
+                <h2>{{ status_text }}</h2>
+                {% if file_name %}
+                    <p class="file-name">{{ file_name }}</p>
+                {% endif %}
+                <pre class="result-text">{{ result_text }}</pre>
+            </section>
+        {% endif %}
+    </section>
 </main>
 </body>
 </html>
